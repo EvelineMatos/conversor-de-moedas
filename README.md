@@ -32,7 +32,7 @@ conversor-moedas/
 │── index.html      # Página principal
 │── style.css       # Estilos da aplicação
 │── script.js       # Código JavaScript
-└── README.md       # Documentação do projeto
+└── README.md       # Documentação do projeto.
 ```
 
 ## Melhorias Futuras

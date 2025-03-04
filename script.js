@@ -1,27 +1,33 @@
-// Função assíncrona para converter moeda
-async function converterMoeda() {
-    // Obtém os valores selecionados nos campos de entrada
-    const moedaOrigem = document.getElementById("moedaOrigem").value;
-    const moedaDestino = document.getElementById("moedaDestino").value;
-    const valor = document.getElementById("valor").value;
+function converterMoeda() {
+    let moedaOrigem = document.getElementById("moedaOrigem").value;
+    let moedaDestino = document.getElementById("moedaDestino").value;
+    let valor = document.getElementById("valor").value;
+    let resultadoElemento = document.getElementById("resultado");
 
-    // Validação: verifica se um valor foi inserido
+    // Verifica se o valor foi preenchido
     if (!valor) {
-        alert("Por favor, insira um valor para converter.");
+        resultadoElemento.innerHTML = "Por favor, insira um valor.";
+        resultadoElemento.style.color = "red";
         return;
     }
 
-    try {
-        // Faz a requisição para a API Frankfurter para obter a taxa de câmbio
-        const response = await fetch(`https://api.frankfurter.app/latest?amount=${valor}&from=${moedaOrigem}&to=${moedaDestino}`);
-        
-        // Converte a resposta para JSON
-        const data = await response.json();
-        
-        // Atualiza o resultado na interface com o valor convertido
-        document.getElementById("resultado").innerText = `Resultado: ${data.rates[moedaDestino]} ${moedaDestino}`;
-    } catch (error) {
-        // Tratamento de erro caso a requisição falhe
-        document.getElementById("resultado").innerText = "Erro ao obter a conversão. Tente novamente.";
+    // Verifica se a moeda de origem e destino são iguais
+    if (moedaOrigem === moedaDestino) {
+        resultadoElemento.innerHTML = "Selecione moedas diferentes para a conversão.";
+        resultadoElemento.style.color = "orange";
+        return;
     }
+
+    // Faz a requisição para a API de conversão de moedas
+    fetch(`https://api.frankfurter.app/latest?amount=${valor}&from=${moedaOrigem}&to=${moedaDestino}`)
+        .then(response => response.json())
+        .then(data => {
+            let taxa = data.rates[moedaDestino];
+            resultadoElemento.innerHTML = `Resultado: ${taxa} ${moedaDestino}`;
+            resultadoElemento.style.color = "#007bff";
+        })
+        .catch(() => {
+            resultadoElemento.innerHTML = "Erro ao obter a conversão.";
+            resultadoElemento.style.color = "red";
+        });
 }

@@ -46,7 +46,6 @@ conversor-moedas/
 - Implementar um histórico de conversões
 - Melhorar a interface com Bootstrap ou Tailwind CSS
 
-## Licença
-Este projeto está licenciado sob a licença MIT.
+
 
 
